@@ -37,4 +37,9 @@ public class CreateUserDto {
     @NotBlank
     @Pattern(regexp = "^[267]\\d{7}$")
     private String phoneNumber;
+
+    @JsonProperty("otp")
+    @NotNull
+    @NotBlank
+    private String otpCode;
 }

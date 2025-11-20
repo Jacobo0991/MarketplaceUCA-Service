@@ -130,6 +130,14 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
+    @ExceptionHandler(EmailNotVerify.class)
+    public ResponseEntity<GeneralResponse> emailNotVerify(EmailNotVerify e) {
+        return GeneralResponse.builder()
+                .message(e.getMessage())
+                .status(HttpStatus.FORBIDDEN)
+                .build();
+    }
+
     /* GENERAL EXCEPTIONS */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<GeneralResponse> unexpectedExceptionHandler(Exception e) {

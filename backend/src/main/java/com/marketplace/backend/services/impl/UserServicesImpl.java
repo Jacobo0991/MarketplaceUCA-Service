@@ -1,6 +1,7 @@
 package com.marketplace.backend.services.impl;
 
 import com.marketplace.backend.domain.dto.user.CreateUserDto;
+import com.marketplace.backend.domain.dto.user.PreRegisterUserDto;
 import com.marketplace.backend.domain.dto.user.ResponseUserDto;
 import com.marketplace.backend.domain.entities.Faculty;
 import com.marketplace.backend.domain.entities.User;
@@ -8,6 +9,8 @@ import com.marketplace.backend.exceptions.faculty.FacultyNotFound;
 import com.marketplace.backend.exceptions.user.*;
 import com.marketplace.backend.repositories.iFacultyRepository;
 import com.marketplace.backend.repositories.iUserRepository;
+import com.marketplace.backend.services.iEmailSenderServices;
+import com.marketplace.backend.services.iOtpServices;
 import com.marketplace.backend.services.iUserServices;
 import com.marketplace.backend.utils.mappers.UserMappers;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +28,21 @@ public class UserServicesImpl implements iUserServices {
 
     private final iUserRepository userRepository;
     private final iFacultyRepository facultyRepository;
+    private final iOtpServices otpServices;
+    private final iEmailSenderServices emailSenderServices;
     private final PasswordEncoder encoder;
     private final UserMappers mappers;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public void preRegisterUser(PreRegisterUserDto user) {
+        String otp = otpServices.generateOtp();
+        otpServices.saveOtp(user.getEmail(), otp);
+        emailSenderServices.sendEmail(user.getEmail(), otp);
     }
 
     @Override
@@ -44,7 +56,13 @@ public class UserServicesImpl implements iUserServices {
             throw new FacultyNotFound();
         }
 
+        if(!otpServices.verifyOtp(user.getEmail(), user.getOtpCode())){
+          throw new EmailNotVerify();
+        }
+
+        otpServices.deleteOtp(user.getEmail());
         User userEntity = new User();
+
         userEntity.setName(user.getName());
         userEntity.setUsername(user.getEmail());
         userEntity.setPassword(encoder.encode(user.getPassword()));
@@ -162,7 +180,7 @@ public class UserServicesImpl implements iUserServices {
         return mappers.getCastedUserList(users);
     }
 
-    private Boolean checkUsername(String username) {
+    private boolean checkUsername(String username) {
         User user = userRepository.findByUsername(username);
         return user != null;
     }

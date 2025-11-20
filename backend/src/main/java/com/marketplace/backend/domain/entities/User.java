@@ -37,7 +37,7 @@ public class User implements UserDetails {
     private String phoneNumber;
 
     @Column(name = "rating")
-    private Integer rating;
+    private int rating;
 
     @Column(name = "role")
     private String role;
