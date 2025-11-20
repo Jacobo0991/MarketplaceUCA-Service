@@ -29,7 +29,28 @@
 ## 🔐 Autenticación y Usuarios
 
 ### `POST /user/auth/register`
-Registra un nuevo usuario y devuelve un token JWT.
+Se envía unicament el correo que se desea registrar para poder validarlo.
+
+**Headers:**
+- Content-Type: application/json
+
+**Body:**
+```json
+{
+  "email": "email@uca.edu.sv"
+}
+```
+
+**Respuesta esperada:** 200 Ok ✅
+```json
+{
+  "data": "Sent to email: email@uca.edu.sv",
+  "message": "Email sent successfully"
+}
+```
+---
+### `POST /user/auth/verify`
+Se envía la información correspondiente junto con un codigo de verificación para crear un usuario
 
 **Headers:**
 - Content-Type: application/json
@@ -41,7 +62,8 @@ Registra un nuevo usuario y devuelve un token JWT.
   "email": "email@uca.edu.sv",
   "password": "Password123", 
   "faculty": "faculty",
-  "phoneNumber": "77777777"
+  "phoneNumber": "77777777",
+  "otp":"123456"
 }
 ```
 
