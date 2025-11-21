@@ -67,7 +67,8 @@ public class UserServicesImpl implements iUserServices {
         userEntity.setUsername(user.getEmail());
         userEntity.setPassword(encoder.encode(user.getPassword()));
         userEntity.setPhoneNumber(user.getPhoneNumber());
-        userEntity.setRating(0);
+        userEntity.setRating(0.0);
+        userEntity.setReviewsCount(0);
         userEntity.setRole("USER");
 
         faculty.addUser(userEntity);

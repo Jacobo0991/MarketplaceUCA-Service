@@ -22,6 +22,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
     private UUID id;
 
     @Column(name = "name")
@@ -33,14 +34,17 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "phoneNumber")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @Column(name = "rating")
-    private int rating;
+    private Double rating;
 
     @Column(name = "role")
     private String role;
+
+    @Column(name = "reviews_count", nullable = false)
+    private Integer reviewsCount;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Likes> likedProducts = new ArrayList<>();
@@ -51,8 +55,14 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,  orphanRemoval = true,  fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Comments> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Review> writtenReviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "reviewee", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Review> receivedReviews = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "faculty_id")
@@ -113,5 +123,29 @@ public class User implements UserDetails {
     public void deleteComments(Comments comment){
         comments.remove(comment);
         comment.setUser(null);
+    }
+
+    public void addWrittenReview(Review review){
+        writtenReviews.add(review);
+        this.reviewsCount = writtenReviews.size();
+        review.setReviewer(this);
+    }
+
+    public void deleteWrittenReview(Review review){
+        writtenReviews.remove(review);
+        this.reviewsCount = writtenReviews.size();
+        review.setReviewer(null);
+    }
+
+    public void addReceivedReview(Review review){
+        receivedReviews.add(review);
+        review.setReviewee(this);
+    }
+
+    public double getAverageReceivedRating() {
+        return receivedReviews.stream()
+                .mapToInt(Review::getRating)
+                .average()
+                .orElse(0.0);
     }
 }

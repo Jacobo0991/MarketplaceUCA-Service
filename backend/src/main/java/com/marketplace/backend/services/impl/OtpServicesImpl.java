@@ -1,6 +1,5 @@
 package com.marketplace.backend.services.impl;
 
-import com.marketplace.backend.domain.dto.user.CreateUserDto;
 import com.marketplace.backend.services.iOtpServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -18,7 +17,7 @@ public class OtpServicesImpl implements iOtpServices {
     public String generateOtp() {
         SecureRandom random = new SecureRandom();
 
-        int otp = 100000 + random.nextInt(900000);
+        Integer otp = 100000 + random.nextInt(900000);
         return String.valueOf(otp);
     }
 
