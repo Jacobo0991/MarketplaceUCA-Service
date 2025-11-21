@@ -18,7 +18,7 @@
 - Los números de teléfono deben cumplir con los siguientes requisitos:
   - Debe ser de **8 caracteres**
   - **Sin guiones**, **sin prefijo** y **sin separación** entre ellos. Por ejemplo: `78787878`
-- [**Diagrama de la base de datos**](https://ucaedusv-my.sharepoint.com/:i:/g/personal/00087022_uca_edu_sv/EV7NUM2CAElKkAf0bQLAPkYBsuZsBYBlr63k7-vcCLY52A?e=iDWlsD)
+- [**Diagrama de la base de datos**](https://ucaedusv-my.sharepoint.com/:i:/g/personal/00087022_uca_edu_sv/IQDSltg0A0buQ63c6XLAfe4pARg9qu4SOZyAPRbEhYmRqbg?e=XREWKo)
 - Un **administrador** puede acceder a todas las rutas detalladas a continuación.
 
 ### 🔐 Credenciales del usuario administrador

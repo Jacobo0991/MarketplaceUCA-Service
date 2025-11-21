@@ -17,6 +17,9 @@ public class CommentsMappers {
         response.setComment(comments.getComment());
         response.setUsername(comments.getUser().getUsername());
         response.setProductId(comments.getProduct().getId());
+        response.setParentId(
+                comments.getParent() != null ? comments.getParent().getId() : null
+        );
 
         return response;
     }
