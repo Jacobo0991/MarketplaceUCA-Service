@@ -716,6 +716,20 @@ Crea un nuevo comentario.
 	"comment":"comment"
 }
 ```
+### `PATCH /comments/update`
+Actualiza un comentario
+
+**Headers:**
+- Authorization: Bearer token
+- Content-Type: application/json
+
+**Body:**
+```json
+{
+	"productId":"productId",
+	"comment":"comment"
+}
+```
 **Respuesta esperada:** 201 Created ✅
 ```json
 {
