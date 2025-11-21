@@ -27,7 +27,19 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("user/auth/register")
-    public ResponseEntity<GeneralResponse> register(@RequestBody @Valid CreateUserDto userDto) {
+    public ResponseEntity<GeneralResponse> register(@RequestBody @Valid PreRegisterUserDto userDto) {
+        UserServices.preRegisterUser(userDto);
+
+
+        return GeneralResponse.builder()
+                .data("Sent to email: " + userDto.getEmail())
+                .message("Email sent successfully!")
+                .status(HttpStatus.OK)
+                .build();
+    }
+
+    @PostMapping("user/auth/verify")
+    public ResponseEntity<GeneralResponse> verify(@RequestBody @Valid CreateUserDto userDto) {
         UserServices.registerUser(userDto);
 
         Authentication auth = authenticationManager
@@ -37,7 +49,7 @@ public class UserController {
 
         return GeneralResponse.builder()
                 .data(token.getToken())
-                .message("User registered successfully")
+                .message("User created successfully!")
                 .status(HttpStatus.CREATED)
                 .build();
     }
@@ -79,7 +91,7 @@ public class UserController {
     }
 
     @PatchMapping("user/phoneNumber")
-    public ResponseEntity<GeneralResponse> updatePhoneNumber(@RequestBody @Valid UpdateUserDto userDto){
+    public ResponseEntity<GeneralResponse> updatePhoneNumber(@RequestBody @Valid UpdateUserDto userDto) {
         UserServices.changePhoneNumber(userDto.getPhoneNumber());
 
         return GeneralResponse.builder()

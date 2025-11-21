@@ -18,7 +18,7 @@
 - Los números de teléfono deben cumplir con los siguientes requisitos:
   - Debe ser de **8 caracteres**
   - **Sin guiones**, **sin prefijo** y **sin separación** entre ellos. Por ejemplo: `78787878`
-- [**Diagrama de la base de datos**](https://ucaedusv-my.sharepoint.com/:i:/g/personal/00087022_uca_edu_sv/EV7NUM2CAElKkAf0bQLAPkYBsuZsBYBlr63k7-vcCLY52A?e=iDWlsD)
+- [**Diagrama de la base de datos**](https://ucaedusv-my.sharepoint.com/:i:/g/personal/00087022_uca_edu_sv/IQDSltg0A0buQ63c6XLAfe4pARg9qu4SOZyAPRbEhYmRqbg?e=XREWKo)
 - Un **administrador** puede acceder a todas las rutas detalladas a continuación.
 
 ### 🔐 Credenciales del usuario administrador
@@ -29,7 +29,28 @@
 ## 🔐 Autenticación y Usuarios
 
 ### `POST /user/auth/register`
-Registra un nuevo usuario y devuelve un token JWT.
+Se envía unicament el correo que se desea registrar para poder validarlo.
+
+**Headers:**
+- Content-Type: application/json
+
+**Body:**
+```json
+{
+  "email": "email@uca.edu.sv"
+}
+```
+
+**Respuesta esperada:** 200 Ok ✅
+```json
+{
+  "data": "Sent to email: email@uca.edu.sv",
+  "message": "Email sent successfully"
+}
+```
+---
+### `POST /user/auth/verify`
+Se envía la información correspondiente junto con un codigo de verificación para crear un usuario
 
 **Headers:**
 - Content-Type: application/json
@@ -41,7 +62,8 @@ Registra un nuevo usuario y devuelve un token JWT.
   "email": "email@uca.edu.sv",
   "password": "Password123", 
   "faculty": "faculty",
-  "phoneNumber": "77777777"
+  "phoneNumber": "77777777",
+  "otp":"123456"
 }
 ```
 
@@ -682,6 +704,20 @@ Elimina un producto a partir del id indicado
 
 ### `POST /comments/create`
 Crea un nuevo comentario.
+
+**Headers:**
+- Authorization: Bearer token
+- Content-Type: application/json
+
+**Body:**
+```json
+{
+	"productId":"productId",
+	"comment":"comment"
+}
+```
+### `PATCH /comments/update`
+Actualiza un comentario
 
 **Headers:**
 - Authorization: Bearer token

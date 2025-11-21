@@ -67,7 +67,8 @@ public class DataInitializer implements CommandLineRunner {
             admin.setUsername("admin@uca.edu.sv");
             admin.setPassword(passwordEncoder.encode("admin123"));
             admin.setPhoneNumber("79653723");
-            admin.setRating(0);
+            admin.setRating(0.0);
+            admin.setReviewsCount(0);
             admin.setRole("ADMIN");
 
             faculty.addUser(admin);
