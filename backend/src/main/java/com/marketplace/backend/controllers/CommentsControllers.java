@@ -3,6 +3,7 @@ package com.marketplace.backend.controllers;
 import com.marketplace.backend.domain.dto.GeneralResponse;
 import com.marketplace.backend.domain.dto.comments.CreateCommentsDto;
 import com.marketplace.backend.domain.dto.comments.ResponseCommentsDto;
+import com.marketplace.backend.domain.dto.comments.UpdateCommentsDto;
 import com.marketplace.backend.services.iCommentsServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,17 @@ public class CommentsControllers {
     @PostMapping("/create")
     public ResponseEntity<GeneralResponse> createComment(@RequestBody CreateCommentsDto commentsDto) {
         ResponseCommentsDto response = commentsServices.addComment(commentsDto);
+
+        return GeneralResponse.builder()
+                .data(response)
+                .message("Ok")
+                .status(HttpStatus.CREATED)
+                .build();
+    }
+
+    @PatchMapping("/update")
+    public ResponseEntity<GeneralResponse> updateComment(@RequestBody UpdateCommentsDto commentsDto) {
+        ResponseCommentsDto response = commentsServices.updateComment(commentsDto);
 
         return GeneralResponse.builder()
                 .data(response)
