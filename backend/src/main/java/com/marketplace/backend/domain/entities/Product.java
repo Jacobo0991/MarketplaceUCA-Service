@@ -71,9 +71,4 @@ public class Product {
         comments.add(comment);
         comment.setProduct(this);
     }
-
-    public void deleteComments(Comments  comment) {
-        comments.remove(comment);
-        comment.setProduct(null);
-    }
 }
