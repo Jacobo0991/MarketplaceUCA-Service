@@ -716,6 +716,47 @@ Crea un nuevo comentario.
 	"comment":"comment"
 }
 ```
+**Respuesta esperada:** 201 Created ✅
+```json
+{
+	"data": {
+		"id": "id",
+		"comment": "comment",
+		"username": "username",
+		"productCode": "productCode"
+	},
+	"message": "Ok"
+}
+```
+---
+### `POST /comments/reply`
+Crea una respuesta al comentario indicado.
+
+**Headers:**
+- Authorization: Bearer token
+- Content-Type: application/json
+
+**Body:**
+```json
+{
+	"commentIdToReply":"commentIdToReply",
+	"comment":"comment"
+}
+```
+**Respuesta esperada:** 201 Created ✅
+```json
+{
+	"data": {
+		"id": "id",
+		"comment": "comment",
+		"username": "email@uca.edu.sv",
+		"parentId": "parentId",
+		"productId": "productId"
+	},
+	"message": "Ok"
+}
+```
+---
 ### `PATCH /comments/update`
 Actualiza un comentario
 
@@ -810,6 +851,29 @@ Obtiene los comentarios a partir del usuario autenticado.
 }
 ```
 ---
+### `GET /comments/responses/{id}`
+Obtiene las respuestas a partir del id de un comentario.
+
+**Headers:**
+- Authorization: Bearer token
+
+**Body:** No body
+
+**Respuesta esperada:** 200 Ok ✅
+```json
+{
+	"data": [
+		{
+			"id": "id",
+			"comment": "comment",
+			"username": "username",
+			"productCode": "productCode"
+		}
+	],
+	"message": "Ok"
+}
+```
+---
 ### `DELETE /comments/delete/{id}`
 Elimina un comentario a partir del id de un comentario.
 
@@ -825,6 +889,7 @@ Elimina un comentario a partir del id de un comentario.
 	"message": "Comment deleted successfully"
 }
 ```
+---
 ## 🏫 Faculty
 
 ### `POST /admin/faculty/create`
