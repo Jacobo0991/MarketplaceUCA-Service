@@ -113,6 +113,10 @@ public class CommentsServicesImpl implements iCommentsServices {
             throw new CommentNotFound();
         }
 
+        Product product = commentsToDelete.getProduct();
+
+        user.deleteComments(commentsToDelete);
+        product.deleteComments(commentsToDelete);
         iCommentsRepository.delete(commentsToDelete);
         return "Comment deleted successfully";
     }

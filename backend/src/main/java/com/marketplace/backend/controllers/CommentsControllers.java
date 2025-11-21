@@ -74,7 +74,7 @@ public class CommentsControllers {
                 .build();
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<GeneralResponse> deleteCommentsById(@PathVariable String id) {
         String response = commentsServices.deleteComment(id);
 
