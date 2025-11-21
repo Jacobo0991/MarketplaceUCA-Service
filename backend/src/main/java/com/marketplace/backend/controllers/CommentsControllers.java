@@ -2,6 +2,7 @@ package com.marketplace.backend.controllers;
 
 import com.marketplace.backend.domain.dto.GeneralResponse;
 import com.marketplace.backend.domain.dto.comments.CreateCommentsDto;
+import com.marketplace.backend.domain.dto.comments.ReplyCommentsDto;
 import com.marketplace.backend.domain.dto.comments.ResponseCommentsDto;
 import com.marketplace.backend.domain.dto.comments.UpdateCommentsDto;
 import com.marketplace.backend.services.iCommentsServices;
@@ -22,6 +23,17 @@ public class CommentsControllers {
     @PostMapping("/create")
     public ResponseEntity<GeneralResponse> createComment(@RequestBody CreateCommentsDto commentsDto) {
         ResponseCommentsDto response = commentsServices.addComment(commentsDto);
+
+        return GeneralResponse.builder()
+                .data(response)
+                .message("Ok")
+                .status(HttpStatus.CREATED)
+                .build();
+    }
+
+    @PostMapping("/reply")
+    public ResponseEntity<GeneralResponse> replyComment(@RequestBody ReplyCommentsDto commentsDto) {
+        ResponseCommentsDto response = commentsServices.replyComment(commentsDto);
 
         return GeneralResponse.builder()
                 .data(response)
@@ -66,6 +78,17 @@ public class CommentsControllers {
     @GetMapping("/user")
     public ResponseEntity<GeneralResponse> getCommentsByUserId() {
         List<ResponseCommentsDto> response = commentsServices.getCommentsByUser();
+
+        return GeneralResponse.builder()
+                .data(response)
+                .message("Ok")
+                .status(HttpStatus.OK)
+                .build();
+    }
+
+    @GetMapping("/responses/{id}")
+    public ResponseEntity<GeneralResponse> getResponsesByCommentId(@PathVariable String id) {
+        List<ResponseCommentsDto> response = commentsServices.getResponsesByCommentId(id);
 
         return GeneralResponse.builder()
                 .data(response)

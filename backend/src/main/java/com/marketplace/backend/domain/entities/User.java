@@ -120,11 +120,6 @@ public class User implements UserDetails {
         comment.setUser(this);
     }
 
-    public void deleteComments(Comments comment){
-        comments.remove(comment);
-        comment.setUser(null);
-    }
-
     public void addWrittenReview(Review review){
         writtenReviews.add(review);
         this.reviewsCount = writtenReviews.size();
