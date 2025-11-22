@@ -720,10 +720,14 @@ Crea un nuevo comentario.
 ```json
 {
 	"data": {
-		"id": "id",
+		"id": "commentId",
 		"comment": "comment",
-		"username": "username",
-		"productCode": "productCode"
+		"createdAt": "5 minutos ago",
+		"updatedAt": null,
+		"username": "email@uca.edu.sv",
+		"responses": [],
+		"parentId": null,
+		"productId": "productId"
 	},
 	"message": "Ok"
 }
@@ -749,6 +753,9 @@ Crea una respuesta al comentario indicado.
 	"data": {
 		"id": "id",
 		"comment": "comment",
+		"createdAt": "5 minutos ago",
+		"updatedAt": null,
+		"responseCount": 0,
 		"username": "email@uca.edu.sv",
 		"parentId": "parentId",
 		"productId": "productId"
@@ -777,8 +784,12 @@ Actualiza un comentario
 	"data": {
 		"id": "id",
 		"comment": "comment",
-		"username": "username",
-		"productCode": "productCode"
+		"createdAt": "5 minutos ago",
+		"updatedAt": null,
+		"responseCount": 0,
+		"username": "email@uca.edu.sv",
+		"parentId": "parentId",
+		"productId": "productId"
 	},
 	"message": "Ok"
 }
@@ -798,8 +809,12 @@ Obtiene un comentario a partir del id.
 	"data": {
 		"id": "id",
 		"comment": "comment",
-		"username": "username",
-		"productCode": "productCode"
+		"createdAt": "5 minutos ago",
+		"updatedAt": null,
+		"responseCount": 0,
+		"username": "email@uca.edu.sv",
+		"parentId": "parentId",
+		"productId": "productId"
 	},
 	"message": "Ok"
 }
@@ -820,9 +835,23 @@ Obtiene los comentarios a partir del idde un producto.
 		{
 			"id": "id",
 			"comment": "comment",
-			"username": "username",
-			"productCode": "productCode"
+			"createdAt": "5 minutos ago",
+			"updatedAt": null,
+			"responseCount": 1,
+			"username": "email@uca.edu.sv",
+			"parentId": null,
+			"productId": "productId"
 		},
+		{
+			"id": "id",
+			"comment": "comment",
+			"createdAt": "5 minutos ago",
+			"updatedAt": null,
+			"responseCount": 1,
+			"username": "email@uca.edu.sv",
+			"parentId": null,
+			"productId": "productId"
+		}
 	],
 	"message": "Ok"
 }
@@ -843,8 +872,22 @@ Obtiene los comentarios a partir del usuario autenticado.
 		{
 			"id": "id",
 			"comment": "comment",
-			"username": "username",
-			"productCode": "productCode"
+			"createdAt": "5 minutos ago",
+			"updatedAt": null,
+			"responseCount": 1,
+			"username": "email@uca.edu.sv",
+			"parentId": null,
+			"productId": "productId"
+		},
+		{
+			"id": "id",
+			"comment": "comment",
+			"createdAt": "5 minutos ago",
+			"updatedAt": null,
+			"responseCount": 1,
+			"username": "email@uca.edu.sv",
+			"parentId": null,
+			"productId": "productId"
 		}
 	],
 	"message": "Ok"
@@ -866,8 +909,59 @@ Obtiene las respuestas a partir del id de un comentario.
 		{
 			"id": "id",
 			"comment": "comment",
-			"username": "username",
-			"productCode": "productCode"
+			"createdAt": "5 minutos ago",
+			"updatedAt": null,
+			"responseCount": 1,
+			"username": "email@uca.edu.sv",
+			"parentId": null,
+			"productId": "productId"
+		},
+		{
+			"id": "id",
+			"comment": "comment",
+			"createdAt": "5 minutos ago",
+			"updatedAt": null,
+			"responseCount": 1,
+			"username": "email@uca.edu.sv",
+			"parentId": null,
+			"productId": "productId"
+		}
+	],
+	"message": "Ok"
+}
+```
+---
+### `GET /comments/product/relevance/{id}`
+Obtiene los comentarios ordenados por relevancia a partir del id de un producto
+
+**Headers:**
+- Authorization: Bearer token
+
+**Body:** No body
+
+**Respuesta esperada:** 200 Ok ✅
+```json
+{
+	"data": [
+		{
+			"id": "id",
+			"comment": "comment",
+			"createdAt": "5 minutos ago",
+			"updatedAt": null,
+			"responseCount": 1,
+			"username": "email@uca.edu.sv",
+			"parentId": null,
+			"productId": "productId"
+		},
+		{
+			"id": "id",
+			"comment": "comment",
+			"createdAt": "5 minutos ago",
+			"updatedAt": null,
+			"responseCount": 1,
+			"username": "email@uca.edu.sv",
+			"parentId": null,
+			"productId": "productId"
 		}
 	],
 	"message": "Ok"

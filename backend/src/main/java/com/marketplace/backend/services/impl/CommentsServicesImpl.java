@@ -114,7 +114,32 @@ public class CommentsServicesImpl implements iCommentsServices {
             throw new ProductNotFound();
         }
 
-        List<Comments> comments = iCommentsRepository.findCommentsByProduct(product);
+        List<Comments> comments = iCommentsRepository.findMainCommentsByProduct(product);
+        return commentsMappers.castResponseCommentsList(comments);
+    }
+
+    @Override
+    public List<ResponseCommentsDto> getResponsesByCommentId(String id) {
+        Comments comments = iCommentsRepository.findCommentsById(UUID.fromString(id));
+
+        if (comments == null) {
+            throw new CommentNotFound();
+        }
+
+        List <Comments> responses = iCommentsRepository.findCommentsByParent(comments);
+
+        return commentsMappers.castResponseCommentsList(responses);
+    }
+
+    @Override
+    public List<ResponseCommentsDto> getCommentsByProductIdSortedByRelevance(String id) {
+        Product product = iProductRepository.findProductById(UUID.fromString(id));
+
+        if (product == null) {
+            throw new ProductNotFound();
+        }
+
+        List<Comments> comments = iCommentsRepository.findCommentsByProductSortedByRelevance(product);
 
         return commentsMappers.castResponseCommentsList(comments);
     }
@@ -125,19 +150,6 @@ public class CommentsServicesImpl implements iCommentsServices {
         List<Comments> comments = iCommentsRepository.findCommentsByUser(user);
 
         return commentsMappers.castResponseCommentsList(comments);
-    }
-
-    @Override
-    public List<ResponseCommentsDto> getResponsesByCommentId(String id) {
-        Comments comment = iCommentsRepository.findCommentsById(UUID.fromString(id));
-
-        if (comment == null) {
-            throw new CommentNotFound();
-        }
-
-        List<Comments> responses = iCommentsRepository.findCommentsByParent(comment);
-
-        return  commentsMappers.castResponseCommentsList(responses);
     }
 
     @Override
