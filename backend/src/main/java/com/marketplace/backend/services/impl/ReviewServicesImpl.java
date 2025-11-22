@@ -67,8 +67,8 @@ public class ReviewServicesImpl implements iReviewServices {
         Review review = new Review();
         review.setRating(reviewDto.getRating());
         review.setReviewText(reviewDto.getComment());
-        review.setAuthor(author);
-        review.setSeller(seller);
+        review.setReviewer(author);
+        review.setReviewee(seller);
         review.setProduct(product);
 
         reviewRepository.save(review);
@@ -151,7 +151,7 @@ public class ReviewServicesImpl implements iReviewServices {
 
         // Solo puede editar quien la escribió
         User sessionUser = getUserSession();
-        if (!review.getAuthor().getId().equals(sessionUser.getId())) {
+        if (!review.getReviewer().getId().equals(sessionUser.getId())) {
             throw new RuntimeException("You are not allowed to edit this review");
         }
 
@@ -177,7 +177,7 @@ public class ReviewServicesImpl implements iReviewServices {
 
         // Solo el autor puede borrarla
         User sessionUser = getUserSession();
-        if (!review.getAuthor().getId().equals(sessionUser.getId())) {
+        if (!review.getReviewer().getId().equals(sessionUser.getId())) {
             throw new RuntimeException("You are not allowed to delete this review");
         }
 
