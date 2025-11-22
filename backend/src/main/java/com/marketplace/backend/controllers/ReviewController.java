@@ -3,6 +3,7 @@ package com.marketplace.backend.controllers;
 import com.marketplace.backend.domain.dto.GeneralResponse;
 import com.marketplace.backend.domain.dto.review.CreateReviewDto;
 import com.marketplace.backend.domain.dto.review.ResponseReviewDto;
+import com.marketplace.backend.domain.dto.review.UpdateReviewDto;
 import com.marketplace.backend.services.iReviewServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -54,9 +55,9 @@ public class ReviewController {
     }
 
 
-    @GetMapping("/seller/{id}")
-    public ResponseEntity<GeneralResponse> getReviewsBySellerId(@PathVariable String id) {
-        List<ResponseReviewDto> response = reviewServices.getReviewsBySellerId(id);
+    @GetMapping("/seller/{username}")
+    public ResponseEntity<GeneralResponse> getReviewsBySellerUsername(@PathVariable String username) {
+        List<ResponseReviewDto> response = reviewServices.getReviewsBySellerUsername(username);
 
         return GeneralResponse.builder()
                 .data(response)
@@ -77,12 +78,9 @@ public class ReviewController {
                 .build();
     }
 
-    @PatchMapping("/update/{id}")
-    public ResponseEntity<GeneralResponse> updateReview(
-            @PathVariable String id,
-            @RequestBody CreateReviewDto reviewDto
-    ) {
-        ResponseReviewDto response = reviewServices.updateReview(id, reviewDto);
+    @PatchMapping("/update")
+    public ResponseEntity<GeneralResponse> updateReview(@RequestBody UpdateReviewDto reviewDto) {
+        ResponseReviewDto response = reviewServices.updateReview(reviewDto);
 
         return GeneralResponse.builder()
                 .data(response)

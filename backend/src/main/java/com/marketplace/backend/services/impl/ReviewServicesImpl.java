@@ -2,6 +2,7 @@ package com.marketplace.backend.services.impl;
 
 import com.marketplace.backend.domain.dto.review.CreateReviewDto;
 import com.marketplace.backend.domain.dto.review.ResponseReviewDto;
+import com.marketplace.backend.domain.dto.review.UpdateReviewDto;
 import com.marketplace.backend.domain.entities.Product;
 import com.marketplace.backend.domain.entities.Review;
 import com.marketplace.backend.domain.entities.User;
@@ -44,7 +45,6 @@ public class ReviewServicesImpl implements iReviewServices {
         return user;
     }
 
-
     @Override
     public ResponseReviewDto addReview(CreateReviewDto reviewDto) {
 
@@ -64,12 +64,12 @@ public class ReviewServicesImpl implements iReviewServices {
         review.setReviewee(reviewee);
         review.setProduct(product);
 
+        reviewer.addWrittenReview(review);
+        reviewee.addReceivedReview(review);
         reviewRepository.save(review);
 
         return reviewMappers.castReviewData(review);
     }
-
-
 
     @Override
     public ResponseReviewDto getReviewById(String id) {
@@ -81,7 +81,6 @@ public class ReviewServicesImpl implements iReviewServices {
 
         return reviewMappers.castReviewData(review);
     }
-
 
     @Override
     public List<ResponseReviewDto> getReviewsByProductId(String productId) {
@@ -99,10 +98,9 @@ public class ReviewServicesImpl implements iReviewServices {
 
 
     @Override
-    public List<ResponseReviewDto> getReviewsBySellerId(String sellerId) {
+    public List<ResponseReviewDto> getReviewsBySellerUsername(String username) {
 
-        User seller = userRepository.findById(UUID.fromString(sellerId))
-                .orElseThrow(UserNotFound::new);
+        User seller = userRepository.findByUsername(username);
 
         if (seller == null) {
             throw new UserNotFound();
@@ -125,9 +123,9 @@ public class ReviewServicesImpl implements iReviewServices {
 
 
     @Override
-    public ResponseReviewDto updateReview(String id, CreateReviewDto reviewDto) {
+    public ResponseReviewDto updateReview(UpdateReviewDto reviewDto) {
 
-        Review review = reviewRepository.findReviewById(UUID.fromString(id));
+        Review review = reviewRepository.findReviewById(UUID.fromString(reviewDto.getReviewId()));
 
         if (review == null) {
             throw new ReviewNotFound();

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,8 +44,8 @@ public class User implements UserDetails {
     @Column(name = "role")
     private String role;
 
-    @Column(name = "reviews_count", nullable = false)
-    private Integer reviewsCount;
+    @Formula("(SELECT COUNT(r.id) FROM app_comments r WHERE r.parent_id = id)")
+    private int reviewsCount;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Likes> likedProducts = new ArrayList<>();
@@ -122,18 +123,22 @@ public class User implements UserDetails {
 
     public void addWrittenReview(Review review){
         writtenReviews.add(review);
-        this.reviewsCount = writtenReviews.size();
         review.setReviewer(this);
     }
 
     public void deleteWrittenReview(Review review){
         writtenReviews.remove(review);
-        this.reviewsCount = writtenReviews.size();
         review.setReviewer(null);
     }
 
     public void addReceivedReview(Review review){
         receivedReviews.add(review);
+        review.setReviewee(this);
+    }
+
+
+    public void deleteReceivedReview(Review review){
+        receivedReviews.remove(review);
         review.setReviewee(this);
     }
 

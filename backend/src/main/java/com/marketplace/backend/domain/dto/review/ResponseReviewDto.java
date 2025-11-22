@@ -14,6 +14,6 @@ public class ResponseReviewDto {
     private UUID id;
     private Integer rating;
     private String comment;
-    private String authorUsername;
+    private String reviewer;
     private UUID productId;
 }

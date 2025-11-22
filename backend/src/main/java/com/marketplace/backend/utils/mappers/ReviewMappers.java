@@ -20,7 +20,7 @@ public class ReviewMappers {
         response.setId(review.getId());
         response.setRating(review.getRating());
         response.setComment(review.getReviewText());
-        response.setAuthorUsername(review.getReviewer().getUsername());
+        response.setReviewer(review.getReviewer().getUsername());
         response.setProductId(review.getProduct().getId());
 
         return response;
