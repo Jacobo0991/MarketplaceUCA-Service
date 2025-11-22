@@ -114,7 +114,7 @@ public class CommentsServicesImpl implements iCommentsServices {
             throw new ProductNotFound();
         }
 
-        List<Comments> comments = iCommentsRepository.findCommentsByProduct(product);
+        List<Comments> comments = iCommentsRepository.findCommentsByProductSortedByDate(product);
 
         return commentsMappers.castResponseCommentsList(comments);
     }
