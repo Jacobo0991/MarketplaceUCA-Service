@@ -32,16 +32,13 @@ public class Review {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reviewer_id")
+    private User reviewer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
-    private User author;
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seller_id")
-    private User seller;
-
+    @JoinColumn(name = "reviewee_id")
+    private User reviewee;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product")

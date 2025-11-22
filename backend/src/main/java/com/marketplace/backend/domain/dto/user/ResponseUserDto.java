@@ -8,7 +8,7 @@ public class ResponseUserDto {
     private String name;
     private String email;
     private String phoneNumber;
-    private Integer rating;
+    private Double rating;
     private String facultyName;
     private String role;
 

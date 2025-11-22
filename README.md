@@ -18,7 +18,7 @@
 - Los números de teléfono deben cumplir con los siguientes requisitos:
   - Debe ser de **8 caracteres**
   - **Sin guiones**, **sin prefijo** y **sin separación** entre ellos. Por ejemplo: `78787878`
-- [**Diagrama de la base de datos**](https://ucaedusv-my.sharepoint.com/:i:/g/personal/00087022_uca_edu_sv/EV7NUM2CAElKkAf0bQLAPkYBsuZsBYBlr63k7-vcCLY52A?e=iDWlsD)
+- [**Diagrama de la base de datos**](https://ucaedusv-my.sharepoint.com/:i:/g/personal/00087022_uca_edu_sv/IQDSltg0A0buQ63c6XLAfe4pARg9qu4SOZyAPRbEhYmRqbg?e=XREWKo)
 - Un **administrador** puede acceder a todas las rutas detalladas a continuación.
 
 ### 🔐 Credenciales del usuario administrador
@@ -729,6 +729,61 @@ Crea un nuevo comentario.
 }
 ```
 ---
+### `POST /comments/reply`
+Crea una respuesta al comentario indicado.
+
+**Headers:**
+- Authorization: Bearer token
+- Content-Type: application/json
+
+**Body:**
+```json
+{
+	"commentIdToReply":"commentIdToReply",
+	"comment":"comment"
+}
+```
+**Respuesta esperada:** 201 Created ✅
+```json
+{
+	"data": {
+		"id": "id",
+		"comment": "comment",
+		"username": "email@uca.edu.sv",
+		"parentId": "parentId",
+		"productId": "productId"
+	},
+	"message": "Ok"
+}
+```
+---
+### `PATCH /comments/update`
+Actualiza un comentario
+
+**Headers:**
+- Authorization: Bearer token
+- Content-Type: application/json
+
+**Body:**
+```json
+{
+	"productId":"productId",
+	"comment":"comment"
+}
+```
+**Respuesta esperada:** 201 Created ✅
+```json
+{
+	"data": {
+		"id": "id",
+		"comment": "comment",
+		"username": "username",
+		"productCode": "productCode"
+	},
+	"message": "Ok"
+}
+```
+---
 ### `GET /comments/{id}`
 Obtiene un comentario a partir del id.
 
@@ -796,6 +851,29 @@ Obtiene los comentarios a partir del usuario autenticado.
 }
 ```
 ---
+### `GET /comments/responses/{id}`
+Obtiene las respuestas a partir del id de un comentario.
+
+**Headers:**
+- Authorization: Bearer token
+
+**Body:** No body
+
+**Respuesta esperada:** 200 Ok ✅
+```json
+{
+	"data": [
+		{
+			"id": "id",
+			"comment": "comment",
+			"username": "username",
+			"productCode": "productCode"
+		}
+	],
+	"message": "Ok"
+}
+```
+---
 ### `DELETE /comments/delete/{id}`
 Elimina un comentario a partir del id de un comentario.
 
@@ -811,6 +889,7 @@ Elimina un comentario a partir del id de un comentario.
 	"message": "Comment deleted successfully"
 }
 ```
+---
 ## 🏫 Faculty
 
 ### `POST /admin/faculty/create`
