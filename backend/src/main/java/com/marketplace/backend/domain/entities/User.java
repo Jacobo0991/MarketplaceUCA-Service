@@ -44,7 +44,7 @@ public class User implements UserDetails {
     @Column(name = "role")
     private String role;
 
-    @Formula("(SELECT COUNT(r.id) FROM app_comments r WHERE r.parent_id = id)")
+    @Formula("(SELECT COUNT(r.id) FROM app_reviews r WHERE r.reviewee_id = id)")
     private int reviewsCount;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
