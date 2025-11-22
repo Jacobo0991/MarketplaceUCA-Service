@@ -66,6 +66,7 @@ public class ReviewServicesImpl implements iReviewServices {
 
         reviewer.addWrittenReview(review);
         reviewee.addReceivedReview(review);
+        reviewee.getAverageReceivedRating();
         reviewRepository.save(review);
 
         return reviewMappers.castReviewData(review);
@@ -145,7 +146,6 @@ public class ReviewServicesImpl implements iReviewServices {
         return reviewMappers.castReviewData(review);
     }
 
-
     @Override
     public String deleteReview(String id) {
 
@@ -162,7 +162,6 @@ public class ReviewServicesImpl implements iReviewServices {
         }
 
         reviewRepository.delete(review);
-
         return "Review deleted successfully";
     }
 }

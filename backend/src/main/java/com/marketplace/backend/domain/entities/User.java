@@ -126,24 +126,13 @@ public class User implements UserDetails {
         review.setReviewer(this);
     }
 
-    public void deleteWrittenReview(Review review){
-        writtenReviews.remove(review);
-        review.setReviewer(null);
-    }
-
     public void addReceivedReview(Review review){
         receivedReviews.add(review);
         review.setReviewee(this);
     }
 
-
-    public void deleteReceivedReview(Review review){
-        receivedReviews.remove(review);
-        review.setReviewee(this);
-    }
-
-    public double getAverageReceivedRating() {
-        return receivedReviews.stream()
+    public void getAverageReceivedRating() {
+        this.rating = receivedReviews.stream()
                 .mapToInt(Review::getRating)
                 .average()
                 .orElse(0.0);
