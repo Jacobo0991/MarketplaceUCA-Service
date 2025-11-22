@@ -29,9 +29,6 @@ public class ReviewServicesImpl implements iReviewServices {
     private final iUserRepository userRepository;
     private final ReviewMappers reviewMappers;
 
-    // ------------------------------------------------------------
-    // GET USER SESSION
-    // ------------------------------------------------------------
     @Override
     public User getUserSession() {
         User userNoSession = (User) SecurityContextHolder.getContext()
@@ -47,28 +44,24 @@ public class ReviewServicesImpl implements iReviewServices {
         return user;
     }
 
-    // ------------------------------------------------------------
-    // CREATE REVIEW
-    // ------------------------------------------------------------
+
     @Override
     public ResponseReviewDto addReview(CreateReviewDto reviewDto) {
 
-        Product product = productRepository.findProductById(
-                UUID.fromString(reviewDto.getProductId())
-        );
+        Product product = productRepository.findProductById(UUID.fromString(reviewDto.getProductId()));
 
         if (product == null) {
             throw new ProductNotFound();
         }
 
-        User author = getUserSession();
-        User seller = product.getUser(); // dueño del producto
+        User reviewer = getUserSession();  // El autor de la reseña
+        User reviewee = product.getUser(); // El vendedor del producto
 
         Review review = new Review();
         review.setRating(reviewDto.getRating());
         review.setReviewText(reviewDto.getComment());
-        review.setReviewer(author);
-        review.setReviewee(seller);
+        review.setReviewer(reviewer);
+        review.setReviewee(reviewee);
         review.setProduct(product);
 
         reviewRepository.save(review);
@@ -76,9 +69,8 @@ public class ReviewServicesImpl implements iReviewServices {
         return reviewMappers.castReviewData(review);
     }
 
-    // ------------------------------------------------------------
-    // GET REVIEW BY ID
-    // ------------------------------------------------------------
+
+
     @Override
     public ResponseReviewDto getReviewById(String id) {
         Review review = reviewRepository.findReviewById(UUID.fromString(id));
@@ -90,9 +82,7 @@ public class ReviewServicesImpl implements iReviewServices {
         return reviewMappers.castReviewData(review);
     }
 
-    // ------------------------------------------------------------
-    // GET REVIEWS BY PRODUCT
-    // ------------------------------------------------------------
+
     @Override
     public List<ResponseReviewDto> getReviewsByProductId(String productId) {
 
@@ -107,9 +97,7 @@ public class ReviewServicesImpl implements iReviewServices {
         return reviewMappers.castReviewList(reviews);
     }
 
-    // ------------------------------------------------------------
-    // GET REVIEWS RECEIVED BY SELLER
-    // ------------------------------------------------------------
+
     @Override
     public List<ResponseReviewDto> getReviewsBySellerId(String sellerId) {
 
@@ -125,9 +113,7 @@ public class ReviewServicesImpl implements iReviewServices {
         return reviewMappers.castReviewList(reviews);
     }
 
-    // ------------------------------------------------------------
-    // GET REVIEWS WRITTEN BY THE USER
-    // ------------------------------------------------------------
+
     @Override
     public List<ResponseReviewDto> getReviewsByUser() {
 
@@ -137,9 +123,7 @@ public class ReviewServicesImpl implements iReviewServices {
         return reviewMappers.castReviewList(reviews);
     }
 
-    // ------------------------------------------------------------
-    // UPDATE REVIEW
-    // ------------------------------------------------------------
+
     @Override
     public ResponseReviewDto updateReview(String id, CreateReviewDto reviewDto) {
 
@@ -163,9 +147,7 @@ public class ReviewServicesImpl implements iReviewServices {
         return reviewMappers.castReviewData(review);
     }
 
-    // ------------------------------------------------------------
-    // DELETE REVIEW
-    // ------------------------------------------------------------
+
     @Override
     public String deleteReview(String id) {
 
