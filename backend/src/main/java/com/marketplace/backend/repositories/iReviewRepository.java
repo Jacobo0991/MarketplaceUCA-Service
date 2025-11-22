@@ -10,7 +10,7 @@ import java.util.UUID;
 public interface iReviewRepository extends iGenericRepository<Review, UUID> {
 
     Review findReviewById(UUID id);
-    List<Review> findReviewsBySeller(User seller);
-    List<Review> findReviewsByAuthor(User author);
+    List<Review> findReviewsByReviewee(User reviewee);   // antes Seller
+    List<Review> findReviewsByReviewer(User reviewer);   // antes Author
     List<Review> findReviewsByProduct(Product product);
 }

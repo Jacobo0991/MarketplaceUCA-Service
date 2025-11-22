@@ -120,7 +120,7 @@ public class ReviewServicesImpl implements iReviewServices {
             throw new UserNotFound();
         }
 
-        List<Review> reviews = reviewRepository.findReviewsBySeller(seller);
+        List<Review> reviews = reviewRepository.findReviewsByReviewee(seller);
 
         return reviewMappers.castReviewList(reviews);
     }
@@ -132,7 +132,7 @@ public class ReviewServicesImpl implements iReviewServices {
     public List<ResponseReviewDto> getReviewsByUser() {
 
         User user = getUserSession();
-        List<Review> reviews = reviewRepository.findReviewsByAuthor(user);
+        List<Review> reviews = reviewRepository.findReviewsByReviewer(user);
 
         return reviewMappers.castReviewList(reviews);
     }
