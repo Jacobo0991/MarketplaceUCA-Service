@@ -1,10 +1,10 @@
 package com.marketplace.backend.domain.entities;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -32,7 +32,10 @@ public class Comments {
     @Column(name = "comment")
     private String comment;
 
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Formula("(SELECT COUNT(r.id) FROM app_comments r WHERE r.parent_id = id)")
+    private int responseCount;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Comments> responses = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

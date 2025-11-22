@@ -18,7 +18,16 @@ public interface iCommentsRepository extends iGenericRepository<Comments, UUID> 
 
     @Query("SELECT c FROM Comments c " +
             "WHERE c.product = :product " +
+            "AND c.parent IS NULL "  +
             "ORDER BY COALESCE(c.updatedAt, c.createdAt) DESC"
     )
-    List<Comments> findCommentsByProductSortedByDate(@Param("product") Product product);
+    List<Comments> findMainCommentsByProduct(@Param("product") Product product);
+
+    @Query("SELECT c FROM Comments c " +
+            "LEFT JOIN c.responses r " +
+            "WHERE c.product = :product " +
+            "AND c.parent IS NULL " +
+            "GROUP BY c " +
+            "ORDER BY COUNT(r) DESC, COALESCE(c.updatedAt, c.createdAt) DESC")
+    List<Comments> findCommentsByProductSortedByRelevance(@Param("product") Product product);
 }

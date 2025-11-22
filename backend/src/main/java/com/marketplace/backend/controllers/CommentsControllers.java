@@ -75,9 +75,9 @@ public class CommentsControllers {
                 .build();
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<GeneralResponse> getCommentsByUserId() {
-        List<ResponseCommentsDto> response = commentsServices.getCommentsByUser();
+    @GetMapping("/responses/{id}")
+    public ResponseEntity<GeneralResponse> getResponsesByCommentId(@PathVariable String id) {
+        List<ResponseCommentsDto> response = commentsServices.getResponsesByCommentId(id);
 
         return GeneralResponse.builder()
                 .data(response)
@@ -86,9 +86,20 @@ public class CommentsControllers {
                 .build();
     }
 
-    @GetMapping("/responses/{id}")
-    public ResponseEntity<GeneralResponse> getResponsesByCommentId(@PathVariable String id) {
-        List<ResponseCommentsDto> response = commentsServices.getResponsesByCommentId(id);
+    @GetMapping("/product/relevance/{id}")
+    public ResponseEntity<GeneralResponse> getCommentsByProductIdSortedByRelevance(@PathVariable String id) {
+        List<ResponseCommentsDto> response = commentsServices.getCommentsByProductIdSortedByRelevance(id);
+
+        return GeneralResponse.builder()
+                .data(response)
+                .message("Ok")
+                .status(HttpStatus.OK)
+                .build();
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<GeneralResponse> getCommentsByUserId() {
+        List<ResponseCommentsDto> response = commentsServices.getCommentsByUser();
 
         return GeneralResponse.builder()
                 .data(response)

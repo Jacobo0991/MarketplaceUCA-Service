@@ -1,26 +1,21 @@
 package com.marketplace.backend.domain.dto.comments;
 
-import com.marketplace.backend.domain.entities.Comments;
-import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponseCommentsDto {
+
     private UUID id;
     private String comment;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private String createdAt;
+    private String updatedAt;
+    private Integer responseCount;
     private String username;
-    private List<ResponseCommentsListDto> responses = new ArrayList<>();
     private UUID parentId;
     private UUID productId;
 }

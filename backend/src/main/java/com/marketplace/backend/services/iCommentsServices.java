@@ -14,9 +14,12 @@ public interface iCommentsServices {
     ResponseCommentsDto addComment(CreateCommentsDto comments);
     ResponseCommentsDto replyComment(ReplyCommentsDto replyComments);
     ResponseCommentsDto updateComment(UpdateCommentsDto comments);
+
     ResponseCommentsDto getCommentsById(String id);
     List<ResponseCommentsDto> getCommentsByProductId(String id);
-    List<ResponseCommentsDto> getCommentsByUser();
     List<ResponseCommentsDto> getResponsesByCommentId(String id);
+    List<ResponseCommentsDto> getCommentsByProductIdSortedByRelevance(String id);
+    List<ResponseCommentsDto> getCommentsByUser();
+
     String deleteComment(String id);
 }
