@@ -13,5 +13,5 @@ public interface iUserRepository extends iGenericRepository<User, UUID> {
     List<User> findUsersByRole(String role);
     List<User> findUsersByNameContainingIgnoreCase(String name);
     List<User> findUsersByFaculty(Faculty faculty);
-    List<User> findUsersByRating(Integer rating);
+    List<User> findUsersByRating(Double rating);
 }

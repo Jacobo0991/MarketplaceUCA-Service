@@ -50,8 +50,11 @@ public class ReviewServicesImpl implements iReviewServices {
 
         User reviewer = getUserSession();
 
-        User reviewee = userRepository.findById(UUID.fromString(reviewDto.getRevieweeId()))
-                .orElseThrow(UserNotFound::new);
+        User reviewee = userRepository.findByUsername(reviewDto.getRevieweeId());
+
+        if (reviewee == null) {
+            throw new UserNotFound();
+        }
 
         // Evitar que alguien se califique a sí mismo
         if (reviewer.getId().equals(reviewee.getId())) {

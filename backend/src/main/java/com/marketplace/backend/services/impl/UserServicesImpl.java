@@ -175,7 +175,7 @@ public class UserServicesImpl implements iUserServices {
     }
 
     @Override
-    public List<ResponseUserDto> getUsersByRating(Integer rating) {
+    public List<ResponseUserDto> getUsersByRating(Double rating) {
         List<User> users = userRepository.findUsersByRating(rating);
 
         return mappers.getCastedUserList(users);

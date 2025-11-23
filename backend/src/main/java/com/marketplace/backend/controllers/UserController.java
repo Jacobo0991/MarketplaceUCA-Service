@@ -157,7 +157,7 @@ public class UserController {
     }
 
     @GetMapping("user/rating")
-    public ResponseEntity<GeneralResponse> getUsersByRating(@RequestParam("rating") Integer rating) {
+    public ResponseEntity<GeneralResponse> getUsersByRating(@RequestParam("rating") Double rating) {
         List<ResponseUserDto> response = UserServices.getUsersByRating(rating);
 
         return GeneralResponse.builder()

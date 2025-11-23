@@ -21,5 +21,5 @@ public interface iUserServices extends UserDetailsService {
     ResponseUserDto getUserByEmail(String email);
     List<ResponseUserDto> getUsersByNameContainingIgnoreCase(String name);
     List<ResponseUserDto> getUsersByFaculty(String facultyName);
-    List<ResponseUserDto> getUsersByRating(Integer rating);
+    List<ResponseUserDto> getUsersByRating(Double rating);
 }
