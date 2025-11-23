@@ -3,16 +3,31 @@ package com.marketplace.backend.repositories;
 import com.marketplace.backend.domain.entities.Comments;
 import com.marketplace.backend.domain.entities.Product;
 import com.marketplace.backend.domain.entities.User;
+import io.lettuce.core.dynamic.annotation.Param;
+import org.springframework.data.jpa.repository.Query;
 
-import javax.xml.stream.events.Comment;
 import java.util.List;
 import java.util.UUID;
 
 public interface iCommentsRepository extends iGenericRepository<Comments, UUID> {
 
     Comments findCommentsById(UUID id);
-    List<Comments> findCommentsByProduct(Product product);
     List<Comments> findCommentsByUser(User user);
     Comments findCommentsByUserAndId(User user, UUID id);
     List<Comments> findCommentsByParent(Comments parent);
+
+    @Query("SELECT c FROM Comments c " +
+            "WHERE c.product = :product " +
+            "AND c.parent IS NULL "  +
+            "ORDER BY COALESCE(c.updatedAt, c.createdAt) DESC"
+    )
+    List<Comments> findMainCommentsByProduct(@Param("product") Product product);
+
+    @Query("SELECT c FROM Comments c " +
+            "LEFT JOIN c.responses r " +
+            "WHERE c.product = :product " +
+            "AND c.parent IS NULL " +
+            "GROUP BY c " +
+            "ORDER BY COUNT(r) DESC, COALESCE(c.updatedAt, c.createdAt) DESC")
+    List<Comments> findCommentsByProductSortedByRelevance(@Param("product") Product product);
 }
