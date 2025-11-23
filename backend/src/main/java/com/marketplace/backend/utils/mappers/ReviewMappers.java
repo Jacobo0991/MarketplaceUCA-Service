@@ -12,16 +12,21 @@ import java.util.List;
 public class ReviewMappers {
 
     public ResponseReviewDto castReviewData(Review review) {
-        if (review == null) {
-            throw new ReviewNotFound();
-        }
-
         ResponseReviewDto response = new ResponseReviewDto();
+
         response.setId(review.getId());
         response.setRating(review.getRating());
         response.setComment(review.getReviewText());
-        response.setReviewer(review.getReviewer().getUsername());
-        response.setProductId(review.getProduct().getId());
+
+        // reviewer (quien escribe)
+        response.setReviewerId(review.getReviewer().getId());
+        response.setReviewerUsername(review.getReviewer().getUsername());
+
+        // reviewee (vendedor)
+        response.setRevieweeId(review.getReviewee().getId());
+        response.setRevieweeUsername(review.getReviewee().getUsername());
+
+        response.setCreatedAt(review.getCreatedAt());
 
         return response;
     }

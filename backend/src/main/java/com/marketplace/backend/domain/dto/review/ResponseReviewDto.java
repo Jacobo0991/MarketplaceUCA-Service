@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -14,6 +15,12 @@ public class ResponseReviewDto {
     private UUID id;
     private Integer rating;
     private String comment;
-    private String reviewer;
-    private UUID productId;
+
+    private UUID reviewerId;
+    private String reviewerUsername;
+
+    private UUID revieweeId;
+    private String revieweeUsername;
+
+    private LocalDateTime createdAt;
 }

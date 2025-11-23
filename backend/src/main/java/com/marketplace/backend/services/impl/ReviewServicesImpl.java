@@ -2,7 +2,6 @@ package com.marketplace.backend.services.impl;
 
 import com.marketplace.backend.domain.dto.review.CreateReviewDto;
 import com.marketplace.backend.domain.dto.review.ResponseReviewDto;
-import com.marketplace.backend.domain.dto.review.UpdateReviewDto;
 import com.marketplace.backend.domain.entities.Product;
 import com.marketplace.backend.domain.entities.Review;
 import com.marketplace.backend.domain.entities.User;
@@ -30,6 +29,7 @@ public class ReviewServicesImpl implements iReviewServices {
     private final iUserRepository userRepository;
     private final ReviewMappers reviewMappers;
 
+
     @Override
     public User getUserSession() {
         User userNoSession = (User) SecurityContextHolder.getContext()
@@ -48,29 +48,27 @@ public class ReviewServicesImpl implements iReviewServices {
     @Override
     public ResponseReviewDto addReview(CreateReviewDto reviewDto) {
 
-        Product product = productRepository.findProductById(UUID.fromString(reviewDto.getProductId()));
+        User reviewer = getUserSession();
 
-        if (product == null) {
-            throw new ProductNotFound();
+        User reviewee = userRepository.findById(UUID.fromString(reviewDto.getRevieweeId()))
+                .orElseThrow(UserNotFound::new);
+
+        // Evitar que alguien se califique a sí mismo
+        if (reviewer.getId().equals(reviewee.getId())) {
+            throw new RuntimeException("You cannot review yourself");
         }
-
-        User reviewer = getUserSession();  // El autor de la reseña
-        User reviewee = product.getUser(); // El vendedor del producto
 
         Review review = new Review();
         review.setRating(reviewDto.getRating());
         review.setReviewText(reviewDto.getComment());
         review.setReviewer(reviewer);
         review.setReviewee(reviewee);
-        review.setProduct(product);
 
-        reviewer.addWrittenReview(review);
-        reviewee.addReceivedReview(review);
-        reviewee.getAverageReceivedRating();
         reviewRepository.save(review);
 
         return reviewMappers.castReviewData(review);
     }
+
 
     @Override
     public ResponseReviewDto getReviewById(String id) {
@@ -83,6 +81,7 @@ public class ReviewServicesImpl implements iReviewServices {
         return reviewMappers.castReviewData(review);
     }
 
+
     @Override
     public List<ResponseReviewDto> getReviewsByProductId(String productId) {
 
@@ -92,20 +91,19 @@ public class ReviewServicesImpl implements iReviewServices {
             throw new ProductNotFound();
         }
 
-        List<Review> reviews = reviewRepository.findReviewsByProduct(product);
+        User seller = product.getUser(); // dueño del producto
+
+        List<Review> reviews = reviewRepository.findReviewsByReviewee(seller);
 
         return reviewMappers.castReviewList(reviews);
     }
 
 
     @Override
-    public List<ResponseReviewDto> getReviewsBySellerUsername(String username) {
+    public List<ResponseReviewDto> getReviewsBySellerId(String sellerId) {
 
-        User seller = userRepository.findByUsername(username);
-
-        if (seller == null) {
-            throw new UserNotFound();
-        }
+        User seller = userRepository.findById(UUID.fromString(sellerId))
+                .orElseThrow(UserNotFound::new);
 
         List<Review> reviews = reviewRepository.findReviewsByReviewee(seller);
 
@@ -124,15 +122,14 @@ public class ReviewServicesImpl implements iReviewServices {
 
 
     @Override
-    public ResponseReviewDto updateReview(UpdateReviewDto reviewDto) {
+    public ResponseReviewDto updateReview(String id, CreateReviewDto reviewDto) {
 
-        Review review = reviewRepository.findReviewById(UUID.fromString(reviewDto.getReviewId()));
+        Review review = reviewRepository.findReviewById(UUID.fromString(id));
 
         if (review == null) {
             throw new ReviewNotFound();
         }
 
-        // Solo puede editar quien la escribió
         User sessionUser = getUserSession();
         if (!review.getReviewer().getId().equals(sessionUser.getId())) {
             throw new RuntimeException("You are not allowed to edit this review");
@@ -146,6 +143,7 @@ public class ReviewServicesImpl implements iReviewServices {
         return reviewMappers.castReviewData(review);
     }
 
+
     @Override
     public String deleteReview(String id) {
 
@@ -155,13 +153,13 @@ public class ReviewServicesImpl implements iReviewServices {
             throw new ReviewNotFound();
         }
 
-        // Solo el autor puede borrarla
         User sessionUser = getUserSession();
         if (!review.getReviewer().getId().equals(sessionUser.getId())) {
             throw new RuntimeException("You are not allowed to delete this review");
         }
 
         reviewRepository.delete(review);
+
         return "Review deleted successfully";
     }
 }

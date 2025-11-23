@@ -32,17 +32,15 @@ public class Review {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    // Usuario que escribió la reseña
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reviewer_id")
+    @JoinColumn(name = "reviewer_id", nullable = false)
     private User reviewer;
 
+    // Usuario que recibe la reseña (vendedor)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reviewee_id")
+    @JoinColumn(name = "reviewee_id", nullable = false)
     private User reviewee;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product")
-    private Product product;
 
     @PrePersist
     public void prePersist() {

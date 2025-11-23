@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateReviewDto {
 
-    @JsonProperty("productId")
+    @JsonProperty("revieweeId")
     @NotNull
     @NotBlank
-    private String productId;
+    private String revieweeId;   // id del vendedor (usuario que recibe la reseña)
 
     @JsonProperty("rating")
     @NotNull
