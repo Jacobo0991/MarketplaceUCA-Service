@@ -1165,7 +1165,9 @@ Crea una review
 		"id": "id",
 		"rating": 2,
 		"comment": "comment",
+		"reviewerId": "reviewerId",
 		"reviewer": "email@uca.edu.sv",
+		"revieweeId": "reviewerId",
 		"reviewee": "email@uca.edu.sv"
 	},
 	"message": "Ok"
@@ -1187,7 +1189,9 @@ Obtener una review a partir de su id
 		"id": "id",
 		"rating": 2,
 		"comment": "comment",
+		"reviewerId": "reviewerId",
 		"reviewer": "email@uca.edu.sv",
+		"revieweeId": "reviewerId",
 		"reviewee": "email@uca.edu.sv"
 	},
 	"message": "Ok"
@@ -1210,8 +1214,10 @@ Obtener todas las reviews a partir del id de un producto
 		"id": "id",
 		"rating": 2,
 		"comment": "comment",
+		"reviewerId": "reviewerId",
 		"reviewer": "email@uca.edu.sv",
-		"productId": "productId"
+		"revieweeId": "reviewerId",
+		"reviewee": "email@uca.edu.sv"
 	},
 	"message": "Ok"
 }
@@ -1232,8 +1238,10 @@ Obtener todas las reviews hacía un usuario que posee ese username. El username 
 		"id": "id",
 		"rating": 2,
 		"comment": "comment",
+		"reviewerId": "reviewerId",
 		"reviewer": "email@uca.edu.sv",
-		"productId": "productId"
+		"revieweeId": "reviewerId",
+		"reviewee": "email@uca.edu.sv"
 	},
 	"message": "Ok"
 }
@@ -1254,8 +1262,10 @@ Obtener todas las reviews del usuario autenticado
 		"id": "id",
 		"rating": 2,
 		"comment": "comment",
+		"reviewerId": "reviewerId",
 		"reviewer": "email@uca.edu.sv",
-		"productId": "productId"
+		"revieweeId": "reviewerId",
+		"reviewee": "email@uca.edu.sv"
 	},
 	"message": "Ok"
 }
@@ -1286,8 +1296,10 @@ Actualizar una review
 		"id": "id",
 		"rating": 2,
 		"comment": "comment",
+		"reviewerId": "reviewerId",
 		"reviewer": "email@uca.edu.sv",
-		"productId": "productId"
+		"revieweeId": "reviewerId",
+		"reviewee": "email@uca.edu.sv"
 	},
 	"message": "Ok"
 }
